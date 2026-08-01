@@ -54,18 +54,37 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opa
 .head p{display:none}
 @media(min-width:700px){.head p{display:block}}
 
-header{position:sticky;top:0;z-index:20;background:rgba(0,0,0,.86);
+header{position:sticky;top:0;z-index:20;background:rgba(0,0,0,.9);
   backdrop-filter:saturate(180%) blur(14px);border-bottom:1px solid var(--hair)}
-.hin{max-width:660px;margin:0 auto;padding:var(--sp3) var(--sp5) 0;overflow:hidden}
+@media(min-width:960px){header{display:none}}
+.hin{max-width:660px;margin:0 auto;padding:0 var(--sp3);overflow:hidden}
 .brand{font-size:13px;font-weight:600;color:var(--ink3);margin-bottom:var(--sp3)}
 .brand b{color:var(--ink)}
-nav{display:flex;gap:var(--sp5);overflow-x:auto;scrollbar-width:none;flex-wrap:nowrap}
-nav::-webkit-scrollbar{display:none}
+nav{display:flex;gap:var(--sp5);flex-wrap:nowrap}
 nav button{background:none;border:none;padding:11px 2px;color:var(--ink4);font:inherit;
   font-size:14px;font-weight:500;cursor:pointer;text-align:left;white-space:nowrap;flex:0 0 auto;
-  border-bottom:1.5px solid transparent;transition:color var(--d1) var(--e-std)}
+  transition:color var(--d1) var(--e-std)}
 nav button:hover{color:var(--ink2)}
-nav button[aria-current="page"]{color:var(--ink);border-color:var(--area)}
+
+/* ── Pager statt Menü ── */
+.pg{display:flex;align-items:center;gap:var(--sp2);min-height:56px}
+.pg-b{flex:1 1 0;min-width:0;background:none;border:none;color:var(--ink4);font:inherit;
+  font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:5px;
+  min-height:48px;padding:0 var(--sp2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  transition:color var(--d1) var(--e-std)}
+.pg-b:hover{color:var(--ink2)}
+.pg-b span{font-size:17px;line-height:1;color:var(--ink3)}
+.pg-r{justify-content:flex-end}
+.pg-c{flex:0 0 auto;text-align:center;font-size:15.5px;font-weight:650;letter-spacing:-.01em;
+  padding:0 var(--sp2)}
+.pg-d{display:flex;gap:4px;justify-content:center;margin-top:4px}
+.pg-d i{width:5px;height:5px;border-radius:50%;background:var(--hair-2);transition:.2s}
+.pg-d i.on{background:var(--area);width:14px;border-radius:3px}
+.pg--sub .pg-c{flex:1}
+#view.sl{animation:slL 260ms var(--e-dec)}
+#view.sr{animation:slR 260ms var(--e-dec)}
+@keyframes slL{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+@keyframes slR{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
 
 .shell{max-width:660px;margin:0 auto;padding:var(--sp5)}
 .rail{display:none}
@@ -117,6 +136,10 @@ section>.t-xs{margin-bottom:var(--sp3)}
 .seg button:hover{color:var(--ink2)}
 .seg button[aria-pressed="true"]{background:var(--area);color:var(--acc-ink);font-weight:700}
 .seg--sm button{font-size:12.5px;padding:10px 4px;min-height:44px}
+/* Ein Segment-Umschalter bekommt eine eigene volle Zeile, sonst schrumpfen
+   die Tippziele unter 44 px Breite (Apple HIG, WCAG 2.5.5). */
+.frow:has(>.seg){flex-wrap:wrap;row-gap:var(--sp2)}
+.frow:has(>.seg)>.seg{flex:1 1 100%!important}
 
 .chips{display:flex;flex-wrap:wrap;gap:var(--sp2)}
 .chip{background:var(--s2);border:none;color:var(--ink2);font:inherit;font-size:13.5px;
@@ -143,7 +166,7 @@ button:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--area);outl
 .tap button:active{transform:scale(.96)}
 .tap button.pop{animation:pop 320ms var(--e-spring)}
 @keyframes pop{from{transform:scale(.96)}to{transform:scale(1)}}
-.tap .hit{background:linear-gradient(180deg,#42a884,#2f7a5f);color:#04140e}
+.tap .hit{background:linear-gradient(180deg,var(--hit-hi),#35a37f);color:#04140e}
 .tap .miss{background:var(--s2);color:var(--ink2)}
 .tap b{font-size:19px;font-weight:600;letter-spacing:-.01em}
 .tap small{font-size:11.5px;opacity:.9;letter-spacing:.02em}
@@ -396,14 +419,12 @@ svg{display:block;width:100%}
 .start-t{font-size:26px;font-weight:700;letter-spacing:-.025em;margin:var(--sp2) 0 var(--sp2)}
 .start-s{font-size:13.5px;color:var(--ink3);margin-bottom:var(--sp5);line-height:1.5}
 .start .btn+.btn{margin-top:var(--sp2)}
-.start-b{position:absolute;inset:auto -30px -60px auto;width:210px;height:210px;
-  color:var(--hair-2);opacity:.55;pointer-events:none}
-.start-b svg{width:100%;height:100%}
 .start.live{background:linear-gradient(180deg,var(--area-soft),var(--s1) 60%)}
 .clock{font-size:44px;font-weight:700;letter-spacing:-.03em;line-height:1.05;margin:var(--sp2) 0}
 .dot-live{width:8px;height:8px;border-radius:50%;background:var(--area);display:inline-block;
   margin-right:7px;animation:pulse 1.6s var(--e-std) infinite}
-.dots{display:flex;align-items:center;gap:6px;justify-content:center;padding:var(--sp4) 0 0}
+.dots{display:flex;align-items:center;gap:6px;justify-content:center;padding:var(--sp4) 0 0;
+  flex-wrap:wrap}
 .dots i{width:6px;height:6px;border-radius:50%;background:var(--hair-2)}
 .dots i.on{background:var(--area);width:18px;border-radius:3px}
 .dots span{font-size:11.5px;color:var(--ink4);margin-left:var(--sp3)}
@@ -425,6 +446,11 @@ svg{display:block;width:100%}
 .draft .btn{flex:0 0 auto}
 
 /* ── Sichtbare Auswahl statt Aufklappmenü ── */
+.stepper{display:flex;align-items:center;gap:2px;background:var(--s2);border-radius:var(--rp);
+  padding:2px}
+.stepper b{min-width:26px;text-align:center;font-size:15px;font-weight:650}
+.stepper .icon{min-width:40px;min-height:40px;font-size:18px;color:var(--ink2)}
+.seg-n{display:inline-block;margin-left:6px;font-size:11px;opacity:.7;font-variant-numeric:tabular-nums}
 .picks{display:flex;gap:var(--sp2);overflow-x:auto;scrollbar-width:none;
   padding-bottom:var(--sp2);margin-bottom:var(--sp3)}
 .picks::-webkit-scrollbar{display:none}
@@ -467,6 +493,9 @@ svg{display:block;width:100%}
 .vf-step i.on{background:var(--area)}
 .vf-body{flex:1;overflow-y:auto;padding:var(--sp4) var(--sp5) var(--sp5);
   max-width:820px;margin:0 auto;width:100%}
+/* Breite Fenster: die Bearbeitungsspalte bleibt stehen, gescrollt wird die
+   Auswertung daneben — sonst starrt man beim Scrollen auf leeren Raum. */
+@media(min-width:900px){.vf-body .g2>div:first-child{position:sticky;top:0;align-self:start}}
 .vf-body .vwrap{margin-top:0;background:#000;border-radius:14px}
 .vf-body .vwrap video{max-height:none;width:100%}
 .vf-bar{display:flex;align-items:center;gap:var(--sp4);margin-top:var(--sp3)}
@@ -506,10 +535,7 @@ svg{display:block;width:100%}
 </head>
 <body>
 
-<header><div class="hin">
-  <div class="brand"><b>HoopTrack</b></div>
-  <nav id="nav"></nav>
-</div></header>
+<header><div class="hin" id="pager"></div></header>
 
 <div class="shell">
   <aside class="rail">
@@ -1253,7 +1279,6 @@ function viewHome(){
 
   <section>${T.on?`
     <div class="start live">
-      <div class="start-b">${GFX.orbit}</div>
       <div class="eye">Läuft</div>
       <div class="clock num" id="tclock">${tFmt(tElapsed())}</div>
       <div class="start-s">${TN(D.type).n}${D.shots.length||S.events.length?` · ${
@@ -1262,7 +1287,6 @@ function viewHome(){
       <button class="btn" data-a="goLog">Weiter erfassen</button>
     </div>`:`
     <div class="start">
-      <div class="start-b">${GFX.orbit}</div>
       <div class="eye">Bereit</div>
       <div class="start-t">Training starten</div>
       <div class="start-s">Datum und Dauer werden automatisch erfasst.
@@ -1282,6 +1306,203 @@ function viewHome(){
   <div class="dots">${PAGES.map(p=>`<i class="${p===tab?'on':''}"></i>`).join('')}
     <span>Wischen: links Prävention · rechts Analyse</span></div>`;
 }
+
+
+/* ═══════════ Trainingsplan: Push / Pull / Legs ═══════════
+   Die Zählweise folgt Pelland et al. (2024): direkte Sätze zählen voll,
+   indirekt belastete Muskeln mit dem Faktor 0,5. Damit wird aus einer
+   Übungsliste ein belastbares Wochenvolumen statt einer Bauchzahl.
+   Zielband 10–20 Sätze je Muskel und Woche — darunter passiert wenig,
+   darüber flacht die Kurve deutlich ab. */
+const MUS=[
+ {k:'brust', n:'Brust'},      {k:'schulter',n:'Schultern'}, {k:'trizeps',n:'Trizeps'},
+ {k:'lat',   n:'Latissimus'}, {k:'oberrueck',n:'Oberer Rücken'}, {k:'bizeps',n:'Bizeps'},
+ {k:'quad',  n:'Quadrizeps'}, {k:'ischio', n:'Beinbeuger'},  {k:'gesaess',n:'Gesäß'},
+ {k:'wade',  n:'Waden'},      {k:'rumpf',  n:'Rumpf'}];
+const MN=k=>(MUS.find(m=>m.k===k)||{n:k}).n;
+
+/* w: 1 = direkt, 0.5 = indirekt. bb: zahlt zusätzlich auf Basketball ein. */
+const EXDB=[
+ // ── PUSH
+ {id:'bank',   n:'Bankdrücken',            d:'push', w:{brust:1,trizeps:.5,schulter:.5}},
+ {id:'schrbank',n:'Schrägbankdrücken',     d:'push', w:{brust:1,schulter:.5,trizeps:.5}},
+ {id:'dips',   n:'Dips',                   d:'push', w:{brust:1,trizeps:1,schulter:.5}},
+ {id:'ohp',    n:'Schulterdrücken',        d:'push', w:{schulter:1,trizeps:.5,rumpf:.5}},
+ {id:'seit',   n:'Seitheben',              d:'push', w:{schulter:1}},
+ {id:'liegest',n:'Liegestütz',             d:'push', w:{brust:1,trizeps:.5,rumpf:.5}},
+ {id:'tri',    n:'Trizepsdrücken',         d:'push', w:{trizeps:1}},
+ {id:'landmine',n:'Landmine-Press',        d:'push', w:{schulter:1,brust:.5,rumpf:.5},
+   bb:'Überkopfstabilität einarmig — nah am Abschluss beim Wurf'},
+ // ── PULL
+ {id:'klimm',  n:'Klimmzug',               d:'pull', w:{lat:1,bizeps:.5,oberrueck:.5}},
+ {id:'latzug', n:'Latzug',                 d:'pull', w:{lat:1,bizeps:.5}},
+ {id:'rudern', n:'Langhantelrudern',       d:'pull', w:{oberrueck:1,lat:1,bizeps:.5}},
+ {id:'kabelr', n:'Kabelrudern',            d:'pull', w:{oberrueck:1,lat:.5,bizeps:.5}},
+ {id:'facep',  n:'Face Pull',              d:'pull', w:{oberrueck:1,schulter:.5},
+   bb:'Schulterblattkraft — Kern des belegten Schulterprogramms'},
+ {id:'curl',   n:'Bizepscurl',             d:'pull', w:{bizeps:1}},
+ {id:'shrug',  n:'Nackenheben',            d:'pull', w:{oberrueck:1}},
+ {id:'rdl',    n:'Kreuzheben rumänisch',   d:'pull', w:{ischio:1,gesaess:1,oberrueck:.5,rumpf:.5},
+   bb:'Hüftdominante Last bei langer Muskellänge'},
+ // ── LEGS
+ {id:'kniebeuge',n:'Kniebeuge',            d:'legs', w:{quad:1,gesaess:1,rumpf:.5}},
+ {id:'front',  n:'Frontkniebeuge',         d:'legs', w:{quad:1,rumpf:1,gesaess:.5}},
+ {id:'bulg',   n:'Bulgarian Split Squat',  d:'legs', w:{quad:1,gesaess:1,ischio:.5},
+   bb:'Einbeinig — deckt die Seitenunterschiede auf, die im Sprung zählen'},
+ {id:'beinpr', n:'Beinpresse',             d:'legs', w:{quad:1,gesaess:.5}},
+ {id:'hipthr', n:'Hip Thrust',             d:'legs', w:{gesaess:1,ischio:.5}},
+ {id:'nordic', n:'Nordic Hamstring Curl',  d:'legs', w:{ischio:1},
+   bb:'Halbiert in Programmen die Zerrungsrate — Effektgröße umstritten, Richtung nicht'},
+ {id:'beinbeu',n:'Beinbeuger-Maschine',    d:'legs', w:{ischio:1}},
+ {id:'wade_st',n:'Wadenheben stehend',     d:'legs', w:{wade:1},
+   bb:'Gastrocnemius — Absprung und Achillessehne'},
+ {id:'wade_si',n:'Wadenheben sitzend',     d:'legs', w:{wade:1},
+   bb:'Soleus — trägt bei der Landung die höchste Last'},
+ {id:'copen',  n:'Copenhagen Adduction',   d:'legs', w:{rumpf:.5,gesaess:.5},
+   bb:'41 % weniger Leistenprobleme im Cluster-RCT'},
+ {id:'landung',n:'Landetechnik / Drop Jump',d:'legs',w:{quad:.5,gesaess:.5},
+   bb:'Halbiert Kreuzbandverletzungen — bei Frauen belegt, bei Männern Datenlage dünn'},
+ {id:'balance',n:'Einbeinstand instabil',  d:'legs', w:{wade:.5,rumpf:.5},
+   bb:'Der belegte Hebel am Sprunggelenk'},
+ // ── RUMPF (jedem Tag zuweisbar)
+ {id:'bird',   n:'Bird Dog',               d:'legs', w:{rumpf:1}},
+ {id:'side',   n:'Side Bridge',            d:'legs', w:{rumpf:1}},
+ {id:'pallof', n:'Pallof Press',           d:'legs', w:{rumpf:1}}];
+const EX=id=>EXDB.find(e=>e.id===id);
+const DAYS=[{k:'push',n:'Push'},{k:'pull',n:'Pull'},{k:'legs',n:'Legs'}];
+
+function plan(){
+  /* Erster Aufruf: die Vorlage steht schon drin. Ein leeres Radar erklärt nichts. */
+  if(!DB.plan){DB.plan={freq:{push:2,pull:2,legs:2}};
+    DAYS.forEach(d=>DB.plan[d.k]=TEMPLATE[d.k].map(([id,sets])=>({id,sets})));}
+  DAYS.forEach(d=>{if(!Array.isArray(DB.plan[d.k]))DB.plan[d.k]=[]});
+  if(!DB.plan.freq)DB.plan.freq={push:2,pull:2,legs:2};
+  return DB.plan;
+}
+function planVolume(){
+  const p=plan(), v={}; MUS.forEach(m=>v[m.k]=0);
+  DAYS.forEach(d=>{const f=+p.freq[d.k]||0;
+    p[d.k].forEach(it=>{const e=EX(it.id); if(!e)return;
+      Object.entries(e.w).forEach(([k,w])=>{if(v[k]!=null)v[k]+=(+it.sets||0)*w*f})})});
+  return v;
+}
+const VOL_LO=10, VOL_HI=20;
+
+function radar(v,size=280){
+  const R=size/2-34, cx=size/2, cy=size/2, N=MUS.length, MAX=Math.max(VOL_HI+6,...Object.values(v));
+  const pt=(i,val)=>{const a=-Math.PI/2+i*2*Math.PI/N, r=R*Math.min(val/MAX,1);
+    return [cx+Math.cos(a)*r, cy+Math.sin(a)*r]};
+  const ringPath=val=>MUS.map((_,i)=>pt(i,val).map(x=>x.toFixed(1)).join(',')).join(' ');
+  const poly=MUS.map((m,i)=>pt(i,v[m.k]).map(x=>x.toFixed(1)).join(',')).join(' ');
+  return `<svg viewBox="0 0 ${size} ${size}" style="width:100%;max-width:${size}px;margin:0 auto"
+      role="img" aria-label="Wochenvolumen je Muskelgruppe">
+    <polygon points="${ringPath(MAX)}" fill="none" stroke="#2a2a2c"/>
+    <polygon points="${ringPath(VOL_HI)}" fill="var(--area)" fill-opacity=".07" stroke="var(--area)"
+      stroke-opacity=".35" stroke-dasharray="3 3"/>
+    <polygon points="${ringPath(VOL_LO)}" fill="#000" fill-opacity=".35" stroke="var(--area)"
+      stroke-opacity=".35" stroke-dasharray="3 3"/>
+    ${MUS.map((m,i)=>{const [x,y]=pt(i,MAX);
+      return `<line x1="${cx}" y1="${cy}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#232326"/>`}).join('')}
+    <polygon points="${poly}" fill="var(--area)" fill-opacity=".3" stroke="var(--area)" stroke-width="2"/>
+    ${MUS.map((m,i)=>{const [x,y]=pt(i,MAX*1.16); const val=v[m.k];
+      const col=val<VOL_LO?'#84848c':val>VOL_HI?'#ffd60a':'#f5f5f7';
+      return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="middle"
+        font-size="9.5" fill="${col}" font-family="ui-sans-serif,system-ui"
+        dominant-baseline="middle">${m.n.length>11?m.n.slice(0,9)+'.':m.n}</text>`}).join('')}
+  </svg>
+  <div class="legend"><span class="ramp" style="border-radius:2px"><i style="background:var(--area);opacity:.3;width:26px"></i></span>
+    dein Wochenvolumen · gestricheltes Band = 10 bis 20 Sätze</div>`;
+}
+
+let planDay='push', planPick=false;
+function viewPlan(){
+  if(!P.open)return '';
+  const p=plan(), v=planVolume();
+  const items=p[planDay];
+  const low=MUS.filter(m=>v[m.k]<VOL_LO), high=MUS.filter(m=>v[m.k]>VOL_HI);
+  return `<div class="vfull" role="dialog" aria-modal="true" aria-label="Trainingsplan">
+    <div class="vf-top">
+      <button class="vf-x" data-a="pClose" aria-label="Schließen">✕</button>
+      <div class="vf-t">Trainingsplan<span>Push · Pull · Legs, nach Wochenvolumen ausgelegt</span></div>
+    </div>
+    <div class="vf-body">
+      <div class="g2"><div>
+        <div class="seg" role="group" aria-label="Tag">${DAYS.map(d=>
+          `<button data-a="pDay" data-v="${d.k}" aria-pressed="${planDay===d.k}">${d.n}
+            <span class="seg-n">${p[d.k].length}</span></button>`).join('')}</div>
+
+        <div class="frow" style="border:none"><span>Pro Woche</span>
+          <div class="seg seg--sm" style="flex:0 0 170px">${[1,2,3].map(i=>
+            `<button data-a="pFreq" data-v="${i}" aria-pressed="${+p.freq[planDay]===i}">${i}×</button>`).join('')}</div></div>
+
+        <div class="panel panel--flush">
+          ${items.length?items.map((it,i)=>{const e=EX(it.id); if(!e)return '';
+            return `<div class="lrow"><div class="main"><div>${esc(e.n)}</div>
+              <div class="sub">${Object.entries(e.w).filter(([,w])=>w===1).map(([k])=>MN(k)).join(', ')}
+              ${e.bb?` · <span style="color:var(--area)">Basketball</span>`:''}</div></div>
+              <div class="stepper">
+                <button class="icon" data-a="pSets" data-v="${i}:-1" aria-label="Ein Satz weniger">−</button>
+                <b class="num">${it.sets}</b>
+                <button class="icon" data-a="pSets" data-v="${i}:1" aria-label="Ein Satz mehr">+</button>
+              </div>
+              <button class="icon" data-a="pDel" data-v="${i}" aria-label="Übung entfernen">✕</button></div>`}).join('')
+            :'<div class="empty">Noch keine Übung an diesem Tag.</div>'}
+          <div class="frow" style="justify-content:flex-end">
+            <button class="btn btn--ghost btn--auto" data-a="pPick">Übung hinzufügen</button></div>
+        </div>
+
+        ${planPick?`<div class="panel" style="margin-top:var(--sp2)">
+          <div class="t-xs" style="margin-bottom:var(--sp3)">Passend für ${DAYS.find(d=>d.k===planDay).n}</div>
+          <div class="chips">${EXDB.filter(e=>e.d===planDay&&!items.some(i=>i.id===e.id)).map(e=>
+            `<button class="chip" data-a="pAdd" data-v="${e.id}">${e.n}</button>`).join('')}</div>
+          <div class="t-xs" style="margin:var(--sp4) 0 var(--sp3)">Rest</div>
+          <div class="chips">${EXDB.filter(e=>e.d!==planDay&&!items.some(i=>i.id===e.id)).map(e=>
+            `<button class="chip" data-a="pAdd" data-v="${e.id}">${e.n}</button>`).join('')}</div>
+        </div>`:''}
+
+      </div><div>
+        <div class="panel">${radar(v)}</div>
+        <div class="panel" style="margin-top:var(--sp2)">
+          <table><thead><tr><th>Muskel</th><th class="n">Sätze / Woche</th></tr></thead>
+          <tbody>${MUS.map(m=>{const x=v[m.k];
+            const st=x<VOL_LO?'zu wenig':x>VOL_HI?'viel':'im Band';
+            const c=x<VOL_LO?'var(--ink4)':x>VOL_HI?'var(--warn)':'var(--ink)';
+            return `<tr><td>${m.n}</td><td class="n" style="color:${c}">${nf(x,1)}
+              <span class="ci">${st}</span></td></tr>`}).join('')}</tbody></table>
+        </div>
+        ${low.length||high.length?`<div class="panel" style="margin-top:var(--sp2)">
+          <div class="t-xs" style="margin-bottom:var(--sp3)">Was auffällt</div>
+          ${low.length?`<p class="ex-p">Unter zehn Sätzen: <b>${low.map(m=>m.n).join(', ')}</b>.
+            Dort passiert wenig.</p>`:''}
+          ${high.length?`<p class="ex-p">Über zwanzig Sätzen: <b>${high.map(m=>m.n).join(', ')}</b>.
+            Ab da flacht die Kurve ab — mehr kostet Erholung, ohne viel zu bringen.</p>`:''}
+        </div>`:''}
+        <details><summary>Woher die Zahlen kommen</summary>
+          <p>Indirekt belastete Muskeln zählen mit dem Faktor <b>0,5</b>, direkte voll — diese
+          Bruchzählung sagt die Anpassung besser vorher als reines Satzzählen. Der Zuwachs
+          steigt mit dem Volumen, aber mit <b>abnehmendem Ertrag</b>: bei Kraft deutlich früher
+          als bei Muskelmasse. Die Häufigkeit pro Woche ist für Muskelmasse nahezu bedeutungslos,
+          solange das Volumen stimmt — für Kraft hilft sie.
+          <cite>Pelland et al., Meta-Regression 2024 · Schoenfeld et al., J Sports Sci 2017</cite></p>
+          <p>Das Band 10 bis 20 ist eine Orientierung, keine Vorschrift. Für dich als
+          Basketballer zählt zusätzlich, was neben der Muskelmasse noch etwas tut — diese
+          Übungen sind markiert.</p></details>
+      </div></div>
+    </div>
+    <div class="vf-foot">
+      <button class="btn btn--ghost btn--auto" data-a="pReset">Vorlage zurücksetzen</button>
+      <button class="btn" data-a="pStart">${DAYS.find(d=>d.k===planDay).n} jetzt trainieren</button>
+    </div>
+  </div>`;
+}
+const P={open:false};
+/* Vorlage so gewählt, dass jede Gruppe im Band landet — nachrechenbar über
+   die Bruchzählung, nicht nach Gefühl zusammengestellt. */
+const TEMPLATE={
+  push:[['bank',4],['ohp',3],['schrbank',2],['seit',2],['tri',3]],
+  pull:[['klimm',4],['rudern',3],['facep',2],['rdl',3],['curl',3]],
+  legs:[['kniebeuge',4],['bulg',2],['nordic',3],['wade_si',3],['wade_st',2],
+        ['balance',2],['bird',2],['copen',2]]};
 
 /* ═══════════ Ansicht: Loggen ═══════════ */
 const HEAD={
@@ -1363,7 +1584,7 @@ function viewLog(){
   ${D.type==='kraft'?secKraft():''}
   ${D.type==='wurf'?secWurf():''}
   ${D.type==='skill'?secDrill():''}
-  </div></div>${vidOverlay()}`;
+  </div></div>${vidOverlay()}${viewPlan()}`;
 }
 
 /* Letzte Werte je Übung — Hevys „Previous"-Spalte. Wer nichts eintippen muss,
@@ -1432,6 +1653,11 @@ function secKraft(){
     <div class="frow" style="justify-content:flex-end">
       <button class="btn btn--ghost btn--auto" data-a="addLift">Übung hinzufügen</button></div>
   </div>
+  <button class="vopen" data-a="pOpen">
+    <span class="vopen-i">${GFX.grid}</span>
+    <span><b>Trainingsplan</b>
+    <small>Push, Pull, Legs — mit Wochenvolumen je Muskel</small></span>
+    <span class="vopen-c">›</span></button>
   <details><summary>Was RIR bringt und was das geschätzte 1RM nicht kann</summary>
     <p>RIR (verbleibende Wiederholungen im Tank) ist die Grundlage jeder Autoregulation und
     kostet dich einen Tap. Die Schätzgenauigkeit steigt mit Trainingserfahrung und mit der Nähe
@@ -1808,6 +2034,10 @@ const GFX={
    stroke-width="1"><circle cx="60" cy="60" r="40"/><ellipse cx="60" cy="60" rx="40" ry="14"/>
    <ellipse cx="60" cy="60" rx="14" ry="40"/><ellipse cx="60" cy="60" rx="40" ry="27"
    transform="rotate(32 60 60)"/><circle cx="60" cy="60" r="52" stroke-dasharray="3 6"/></g></svg>`,
+ grid:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+   stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="2"/>
+   <rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/>
+   <path d="M14 17.5h7M17.5 14v7"/></svg>`,
  play:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
    stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="3"/>
    <path d="M10 9.5l5 2.5-5 2.5z" fill="currentColor"/></svg>`};
@@ -2231,6 +2461,28 @@ const A={
     clearTimeout(t._p); t._p=setTimeout(()=>t.classList.remove('pop'),340);
   },
   hf:()=>HF.on?hfStop():hfStart(),
+  pOpen:()=>{P.open=true;planPick=false;render()},
+  pClose:()=>{P.open=false;save();render()},
+  pDay:v=>{planDay=v;planPick=false;render()},
+  pFreq:v=>{plan().freq[planDay]=+v;save();render()},
+  pPick:()=>{planPick=!planPick;render()},
+  pAdd:v=>{plan()[planDay].push({id:v,sets:3});save();render()},
+  pDel:v=>{plan()[planDay].splice(+v,1);save();render()},
+  pSets:v=>{const [i,d]=v.split(':').map(Number);const it=plan()[planDay][i];
+    it.sets=Math.max(1,Math.min(10,it.sets+d));save();render()},
+  pReset:()=>{if(!confirm('Auf die Vorlage zurücksetzen? Dein aktueller Plan wird ersetzt.'))return;
+    const p=plan(); DAYS.forEach(d=>p[d.k]=TEMPLATE[d.k].map(([id,sets])=>({id,sets})));
+    p.freq={push:2,pull:2,legs:2}; save(); render(); toast('Vorlage geladen')},
+  pStart:()=>{
+    const p=plan(), items=p[planDay];
+    if(!items.length)return toast('Der Tag ist leer');
+    if(!T.on)tStart();
+    D.type='kraft';
+    items.forEach(it=>{const e=EX(it.id); if(!e)return;
+      const prev=lastLift(e.n);
+      const r=prev?prev.l.sets[0].reps:8, w=prev?prev.l.sets[0].weight:0;
+      D.lifts.push({exercise:e.n,sets:Array.from({length:it.sets},()=>({reps:r,weight:w,rir:2}))});});
+    P.open=false; tab='log'; toast(DAYS.find(d=>d.k===planDay).n+' übernommen'); render(); scrollTo(0,0)},
   vopen:()=>{V.open=true;render();setTimeout(()=>{vidBind();vidDraw()},60)},
   vclose:()=>{const v=el('vvid'); if(v)v.pause(); V.open=false;render()},
   tStart:()=>tStart(), tStop:()=>tStop(), goLog:()=>{tab='log';render();scrollTo(0,0)},
@@ -2481,10 +2733,29 @@ function loadDraft(){
     setTimeout(()=>toast('Angefangene Einheit wiederhergestellt'),400);
   }catch(e){}
 }
+/* Kein Menü mehr — stattdessen zeigt der Pager dauerhaft, was links und
+   rechts liegt, und ist gleichzeitig anklickbar. */
+const LBL=Object.fromEntries(TABS);
+function pager(){
+  const i=PAGES.indexOf(tab);
+  if(i<0)return `<div class="pg pg--sub">
+    <button class="pg-b" data-a="go" data-v="home" aria-label="Zurück zum Start">‹ Start</button>
+    <div class="pg-c">${LBL[tab]||''}</div><div class="pg-b" aria-hidden="true"></div></div>`;
+  const L=PAGES[i-1], R=PAGES[i+1];
+  return `<div class="pg">
+    ${L?`<button class="pg-b" data-a="go" data-v="${L}"><span>‹</span>${LBL[L]}</button>`
+       :'<div class="pg-b"></div>'}
+    <div class="pg-c">${LBL[tab]}<div class="pg-d">${PAGES.map(p=>
+      `<i class="${p===tab?'on':''}"></i>`).join('')}</div></div>
+    ${R?`<button class="pg-b pg-r" data-a="go" data-v="${R}">${LBL[R]}<span>›</span></button>`
+       :'<div class="pg-b"></div>'}
+  </div>`;
+}
+let LASTI=1;
 function render(focusId){
-  const navHTML=TABS.map(([k,n])=>
+  el('rail-nav').innerHTML=TABS.map(([k,n])=>
     `<button data-a="go" data-v="${k}" ${k===tab?'aria-current="page"':''}>${n}</button>`).join('');
-  el('nav').innerHTML=navHTML; el('rail-nav').innerHTML=navHTML;
+  el('pager').innerHTML=pager();
   const w=loadRange(7,0), c=inRange(7,0).length;
   const gs=goalState();
   el('railFoot').innerHTML=`<div class="rf-v num">${nf(w)}</div>
@@ -2496,6 +2767,12 @@ function render(focusId){
   el('view').innerHTML=tab==='home'?viewHome():tab==='log'?viewLog():tab==='hist'?viewHist()
     :tab==='ana'?viewAna():tab==='reha'?viewRehab():viewData();
   document.body.dataset.area=tab;
+  /* Richtung der Bewegung macht den Wechsel begreifbar. */
+  const ni=PAGES.indexOf(tab);
+  if(ni>=0&&LASTI>=0&&ni!==LASTI){const v=el('view');
+    v.classList.remove('sl','sr'); void v.offsetWidth;
+    v.classList.add(ni>LASTI?'sl':'sr');}
+  if(ni>=0)LASTI=ni;
   /* Ein Bereich, ein Farbton: im Wurftraining ist alles Bedienbare grün,
      im Krafttraining orange. Kein Nebeneinander von Koralle und Grün. */
   const AC={home:'#e84c62',hist:'#e84c62',data:'#e84c62',reha:'#e84c62',ana:'#7b78e6'};
